@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,9 +31,12 @@ public class AIController {
 
     @PostMapping(value = "/image-scan", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "Scan medicine image", description = "Analyze medicine packaging image for authenticity")
-    public ResponseEntity<ImageScanResult> scanImage(@RequestPart("image") MultipartFile image) throws IOException {
+    public ResponseEntity<ImageScanResult> scanImage(
+            @RequestPart("image") MultipartFile image,
+            Authentication authentication) throws IOException {
         byte[] imageBytes = image.getBytes();
-        ImageScanResult result = imageScanService.analyzeMedicineImage(imageBytes, "anonymous");
+        String rateLimitIdentity = authentication != null ? authentication.getName() : "anonymous";
+        ImageScanResult result = imageScanService.analyzeMedicineImage(imageBytes, rateLimitIdentity);
         return ResponseEntity.ok(result);
     }
 

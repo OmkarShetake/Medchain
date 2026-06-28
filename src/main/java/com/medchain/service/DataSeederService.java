@@ -42,27 +42,27 @@ public class DataSeederService {
 
                 createSampleMedicine(manufacturer, "Paracetamol 500mg", "Paracetamol",
                         "Paracetamol 500mg", "PAINKILLER", "BN-PARA-2024-001",
-                        LocalDate.of(2024, 1, 1), LocalDate.of(2026, 12, 31),
+                        LocalDate.of(2025, 1, 1), LocalDate.of(2026, 12, 31),
                         "Fever, headache, mild pain relief", 10000);
 
                 createSampleMedicine(manufacturer, "Amoxicillin 500mg", "Amoxicillin",
                         "Amoxicillin Trihydrate 500mg", "ANTIBIOTIC", "BN-AMOX-2024-002",
-                        LocalDate.of(2024, 2, 1), LocalDate.of(2026, 11, 30),
+                        LocalDate.of(2025, 2, 1), LocalDate.of(2026, 11, 30),
                         "Bacterial infections treatment", 5000);
 
                 createSampleMedicine(manufacturer, "Cetirizine 10mg", "Cetirizine",
                         "Cetirizine Hydrochloride 10mg", "OTHER", "BN-CETZ-2024-003",
-                        LocalDate.of(2024, 3, 1), LocalDate.of(2027, 2, 28),
+                        LocalDate.of(2025, 3, 1), LocalDate.of(2027, 2, 28),
                         "Allergy, cold, runny nose relief", 8000);
 
                 createSampleMedicine(manufacturer, "Metformin 500mg", "Metformin",
                         "Metformin Hydrochloride 500mg", "DIABETES", "BN-METF-2024-004",
-                        LocalDate.of(2024, 1, 15), LocalDate.of(2026, 10, 31),
+                        LocalDate.of(2026, 1, 15), LocalDate.of(2026, 10, 31),
                         "Type 2 diabetes management", 6000);
 
                 createSampleMedicine(manufacturer, "Vitamin C 500mg", "Ascorbic Acid",
                         "Ascorbic Acid 500mg", "VITAMIN", "BN-VITC-2024-005",
-                        LocalDate.of(2024, 4, 1), LocalDate.of(2027, 3, 31),
+                        LocalDate.of(2026, 4, 1), LocalDate.of(2027, 3, 31),
                         "Immune system support, antioxidant", 15000);
 
                 log.info("Sample medicines seeded for Cipla Pharmaceuticals");
