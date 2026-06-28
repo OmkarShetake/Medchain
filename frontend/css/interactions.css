@@ -1,0 +1,104 @@
+/* interactions.css - Drug Interaction Checker page */
+
+.interactions-section {
+    padding: 3rem 0;
+    min-height: 80vh;
+}
+
+.interactions-card {
+    max-width: 800px;
+    margin: 0 auto 2rem;
+}
+
+.medicine-input-row {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.medicine-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    min-height: 2rem;
+}
+
+.medicine-chip {
+    background: var(--primary);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.medicine-chip button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 1.2rem;
+    line-height: 1;
+    padding: 0;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.note-card {
+    max-width: 800px;
+    margin: 2rem auto;
+    background: rgba(37, 99, 235, 0.1);
+    border-left: 4px solid var(--primary);
+}
+
+.results-card {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.risk-badge {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+    color: white;
+}
+
+.summary-box {
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid;
+}
+
+.interaction-item {
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    margin-bottom: 1rem;
+    border-left: 4px solid;
+    background: var(--bg-secondary);
+}
+
+.interaction-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.5rem;
+}
+
+.severity-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.875rem;
+    color: white;
+}
+
+.no-interaction-box {
+    text-align: center;
+    padding: 2rem;
+    background: rgba(22, 163, 74, 0.1);
+    border-radius: 8px;
+}

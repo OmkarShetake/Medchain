@@ -1,0 +1,116 @@
+# ============================================================
+# MedChain Application Configuration
+# All secrets are loaded from .env file (via spring-dotenv)
+# Never put real credentials in this file - it is committed to git
+# ============================================================
+
+server:
+  port: ${SERVER_PORT:8080}
+
+spring:
+  application:
+    name: MedChain
+
+  # Virtual Threads
+  threads:
+    virtual:
+      enabled: true
+
+  # Database - credentials from .env
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+  # Flyway disabled - no migration files present
+  flyway:
+    enabled: false
+
+  # Redis - credentials from .env
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+      timeout: 60000
+
+  # Mail - credentials from .env
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+
+  # File Upload limits (not secret)
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+
+  # Spring AI Vertex config (library requires this to start, uses placeholder - not used for AI calls)
+  ai:
+    vertex:
+      ai:
+        gemini:
+          project-id: ${GEMINI_PROJECT_ID:placeholder}
+          location: us-central1
+          chat:
+            options:
+              model: gemini-1.5-flash
+
+# Gemini REST API key from .env
+gemini:
+  api:
+    key: ${GEMINI_API_KEY:}
+
+# Cloudinary - credentials from .env
+cloudinary:
+  cloud-name: ${CLOUDINARY_CLOUD_NAME}
+  api-key: ${CLOUDINARY_API_KEY}
+  api-secret: ${CLOUDINARY_API_SECRET}
+
+# JWT - secret from .env
+jwt:
+  secret: ${JWT_SECRET}
+  access-expiry: 86400000
+  refresh-expiry: 604800000
+
+# Logging (not secret)
+logging:
+  level:
+    com.medchain: INFO
+    org.springframework.security: WARN
+    org.springframework.ai: WARN
+
+# Swagger UI (not secret)
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+
+# Disable mail health check - mail is optional/best-effort
+management:
+  health:
+    mail:
+      enabled: false

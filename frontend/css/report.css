@@ -1,0 +1,27 @@
+/* report.css - Report Fake Medicine page */
+
+.report-section {
+    padding: 3rem 0;
+    min-height: 80vh;
+}
+
+.report-form-card {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+#photoPreview img {
+    max-width: 100%;
+    border-radius: 8px;
+    margin-top: 0.5rem;
+}
+
+.success-message {
+    text-align: center;
+    padding: 2rem;
+}
+
+.success-message .success-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}

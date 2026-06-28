@@ -1,0 +1,167 @@
+/* chemist.css - Chemist Dashboard */
+
+.chemist-verify-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 0.75rem;
+}
+
+.chemist-tab-btn {
+    padding: 0.45rem 1rem;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg-secondary);
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: var(--transition);
+    color: var(--text-secondary);
+}
+
+.chemist-tab-btn.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.chemist-tab-btn:hover:not(.active) {
+    background: var(--primary-light);
+    color: var(--primary);
+}
+
+/* Verify result card */
+.chemist-result {
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    border-left: 6px solid var(--success);
+    background: var(--bg-primary);
+    box-shadow: 0 2px 8px var(--shadow);
+}
+
+.chemist-result.genuine  { border-left-color: var(--success); }
+.chemist-result.expired  { border-left-color: var(--warning); }
+.chemist-result.recalled { border-left-color: var(--danger);  }
+.chemist-result.not_found { border-left-color: var(--text-secondary); }
+.chemist-result.suspicious { border-left-color: var(--warning); }
+
+.result-verdict-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.result-verdict-icon { font-size: 2.5rem; }
+
+.result-verdict-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.result-verdict-title.genuine  { color: var(--success); }
+.result-verdict-title.expired  { color: var(--warning); }
+.result-verdict-title.recalled { color: var(--danger);  }
+.result-verdict-title.not_found { color: var(--text-secondary); }
+
+/* Medicine detail rows */
+.medicine-detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.med-detail-item { font-size: 0.875rem; }
+.med-detail-label { color: var(--text-secondary); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
+.med-detail-value { font-weight: 600; color: var(--text-primary); }
+
+/* Name search results */
+.chemist-search-result {
+    padding: 0.875rem 1rem;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.chemist-search-result:hover { background: var(--bg-secondary); }
+.chemist-search-result:last-child { border-bottom: none; }
+
+/* Banned medicine card */
+.ban-card {
+    background: var(--bg-primary);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    border-left: 4px solid var(--danger);
+    box-shadow: 0 2px 8px var(--shadow);
+}
+
+.ban-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.ban-severity {
+    padding: 0.2rem 0.75rem;
+    border-radius: 99px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    background: rgba(220,38,38,0.1);
+    color: var(--danger);
+    text-transform: uppercase;
+}
+
+/* Drug chips */
+.drug-chip {
+    background: var(--primary);
+    color: white;
+    padding: 0.4rem 0.875rem;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.875rem;
+}
+
+.drug-chip button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 1.1rem;
+    line-height: 1;
+    padding: 0;
+}
+
+/* Alert box */
+.alert-banner {
+    padding: 0.875rem 1.25rem;
+    border-radius: var(--radius-md);
+    margin-bottom: 1rem;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.alert-banner.danger {
+    background: var(--danger-light, rgba(220,38,38,0.1));
+    border-left: 4px solid var(--danger);
+    color: #7f1d1d;
+}
+
+.alert-banner.warning {
+    background: rgba(217,119,6,0.1);
+    border-left: 4px solid var(--warning);
+    color: #78350f;
+}
+
+@media (max-width: 768px) {
+    .medicine-detail-grid { grid-template-columns: 1fr; }
+    .chemist-verify-tabs { flex-wrap: wrap; }
+}

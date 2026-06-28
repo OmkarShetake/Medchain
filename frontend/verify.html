@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Medicine - MedChain</title>
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/nav.css">
+    <link rel="stylesheet" href="css/verify.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="logo">🏥</span>
+                <span class="brand-name">MedChain</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="verify.html" class="nav-link active">Verify</a>
+                <a href="symptom.html" class="nav-link">Symptom Checker</a>
+                <a href="interactions.html" class="nav-link">Drug Interactions</a>
+            </div>
+            <div class="nav-auth" id="navAuth"></div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+        </div>
+    </nav>
+
+    <section class="verify-section">
+        <div class="container">
+            <h1 class="text-center">Verify Medicine Authenticity</h1>
+            <p class="text-center text-secondary">No QR code? Use batch number, name search, or photo scan</p>
+
+            <div class="verify-card">
+                <div class="input-methods">
+                    <button class="method-btn active" onclick="switchMethod('batch')">🔢 Batch Number</button>
+                    <button class="method-btn" onclick="switchMethod('name')">🔍 Name Search</button>
+                    <button class="method-btn" onclick="switchMethod('qr')">📷 QR Code</button>
+                    <button class="method-btn" onclick="switchMethod('image')">🖼️ Photo Scan</button>
+                </div>
+
+                <!-- Batch Number -->
+                <div id="batchInput" class="input-section">
+                    <p class="method-hint">Find the batch number printed on the box or strip (e.g. <strong>BN2024001</strong>)</p>
+                    <div class="batch-scanner-box">
+                        <input type="text" id="batchNumberInput" placeholder="e.g. BN-PARA-2024-001"
+                               oninput="this.value = this.value.toUpperCase()"
+                               onkeypress="if(event.key==='Enter') verifyByBatch()">
+                        <span class="batch-scanner-icon">🔍</span>
+                    </div>
+                    <div class="batch-hint">📦 Usually printed near expiry date as "Batch No." or "B.No."</div>
+                    <div class="location-toggle" style="margin-top:1rem">
+                        <label><input type="checkbox" id="shareLocationBatch" checked> Share location for tracking</label>
+                    </div>
+                    <button class="btn btn-primary btn-large" style="margin-top:1rem;width:100%" onclick="verifyByBatch()">
+                        🔍 Verify Batch Number
+                    </button>
+                </div>
+
+                <!-- Name Search -->
+                <div id="nameInput" class="input-section hidden">
+                    <p class="method-hint">Search for the medicine by name and compare the details with what's on your box</p>
+                    <div class="form-group">
+                        <label>Medicine Name</label>
+                        <input type="text" id="nameSearchInput" placeholder="e.g. Aziderm, Paracetamol, Crocin"
+                               class="qr-input" oninput="handleNameInput(this.value)">
+                    </div>
+                    <div id="nameSearchResults" class="search-results hidden"></div>
+                </div>
+
+                <!-- QR Code -->
+                <div id="qrInput" class="input-section hidden">
+                    <div class="inner-methods">
+                        <button class="method-btn-sm active" onclick="switchQrMethod('manual')">⌨️ Type Code</button>
+                        <button class="method-btn-sm" onclick="switchQrMethod('camera')">📷 Camera</button>
+                    </div>
+                    <div id="qrManual">
+                        <div class="form-group">
+                            <label>QR Code Value</label>
+                            <input type="text" id="qrCodeInput" placeholder="MEDCHAIN:xxxxx-xxxx-xxxx" class="qr-input">
+                        </div>
+                        <div class="location-toggle">
+                            <label><input type="checkbox" id="shareLocationQr" checked> Share location</label>
+                        </div>
+                        <button class="btn btn-primary btn-large" onclick="verifyByQR()">🔍 Verify QR Code</button>
+                    </div>
+                    <div id="qrCamera" class="hidden">
+                        <div class="camera-container">
+                            <video id="video" autoplay playsinline></video>
+                            <canvas id="canvas" style="display:none"></canvas>
+                        </div>
+                        <div style="display:flex;gap:1rem;margin-top:1rem">
+                            <button class="btn btn-primary" onclick="startCamera()">Start Camera</button>
+                            <button class="btn btn-outline" onclick="stopCamera()">Stop</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image Scan -->
+                <div id="imageInput" class="input-section hidden">
+                    <p class="method-hint">Upload a clear photo of the medicine packaging — AI will check for signs of tampering or counterfeiting</p>
+                    <div class="upload-area" id="uploadArea" onclick="document.getElementById('imageFile').click()"
+                         ondrop="handleDrop(event)" ondragover="event.preventDefault()">
+                        <div id="uploadPlaceholder">
+                            <div style="font-size:3rem">📦</div>
+                            <p>Click or drag &amp; drop medicine photo here</p>
+                            <p class="text-secondary" style="font-size:0.85rem">JPG, PNG up to 5MB</p>
+                        </div>
+                        <img id="imagePreview" class="hidden" style="max-width:100%;max-height:250px;border-radius:8px">
+                    </div>
+                    <input type="file" id="imageFile" accept="image/*" class="hidden" onchange="handleImageSelect(event)">
+                    <button class="btn btn-primary btn-large" onclick="scanImage()" id="scanImageBtn" disabled>
+                        🤖 Scan with AI
+                    </button>
+                </div>
+            </div>
+
+            <div id="verificationResult" class="hidden"></div>
+
+            <div class="scan-history">
+                <h2>Recent Verifications</h2>
+                <div id="scanHistory" class="history-list">
+                    <p class="no-data">No verification history yet</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/verify.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            updateNavAuth();
+            loadScanHistory();
+            const qrFromUrl = getQueryParam('qr');
+            if (qrFromUrl) {
+                switchMethod('qr');
+                document.getElementById('qrCodeInput').value = qrFromUrl;
+                verifyByQR();
+            }
+        });
+    </script>
+</body>
+</html>

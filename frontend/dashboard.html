@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manufacturer Dashboard - MedChain</title>
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/nav.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="logo">🏥</span>
+                <span class="brand-name">MedChain</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="dashboard.html" class="nav-link active">Dashboard</a>
+                <a href="verify.html" class="nav-link">Verify</a>
+            </div>
+            <div class="nav-auth" id="navAuth"></div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+        </div>
+    </nav>
+
+    <!-- Dashboard Container -->
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Manufacturer</h2>
+                <p id="manufacturerName">Loading...</p>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#overview" class="sidebar-link active" data-tab="overview">
+                    <span>📊</span> Overview
+                </a>
+                <a href="#medicines" class="sidebar-link" data-tab="medicines">
+                    <span>💊</span> Medicines
+                </a>
+                <a href="#qr-codes" class="sidebar-link" data-tab="qr-codes">
+                    <span>📱</span> QR Codes
+                </a>
+                <a href="#recalls" class="sidebar-link" data-tab="recalls">
+                    <span>🚫</span> Banned Medicines
+                </a>
+                <a href="#analytics" class="sidebar-link" data-tab="analytics">
+                    <span>📈</span> Analytics
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <!-- Overview Tab -->
+            <div id="overview" class="tab-content active">
+                <div class="dashboard-header">
+                    <h1>Dashboard Overview</h1>
+                    <button class="btn btn-primary" onclick="showAddMedicineModal()">
+                        ➕ Add Medicine
+                    </button>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">💊</div>
+                        <div class="stat-info">
+                            <div class="stat-number" id="totalMedicines">0</div>
+                            <div class="stat-label">Total Medicines</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📱</div>
+                        <div class="stat-info">
+                            <div class="stat-number" id="totalQRCodes">0</div>
+                            <div class="stat-label">QR Codes Generated</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-info">
+                            <div class="stat-number" id="totalScans">0</div>
+                            <div class="stat-label">Total Scans</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⚠️</div>
+                        <div class="stat-info">
+                            <div class="stat-number" id="activeRecalls">0</div>
+                            <div class="stat-label">Banned Medicines</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="card">
+                    <h2>Recent Medicines</h2>
+                    <div id="recentMedicines" class="medicines-list">
+                        <div class="loading">Loading...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Medicines Tab -->
+            <div id="medicines" class="tab-content">
+                <div class="dashboard-header">
+                    <h1>My Medicines</h1>
+                    <button class="btn btn-primary" onclick="showAddMedicineModal()">
+                        ➕ Add Medicine
+                    </button>
+                </div>
+
+                <div class="search-bar">
+                    <input type="text" id="medicineSearchInput" placeholder="Search medicines..." class="search-input">
+                </div>
+
+                <div id="medicinesList" class="medicines-grid">
+                    <div class="loading">Loading medicines...</div>
+                </div>
+            </div>
+
+            <!-- QR Codes Tab -->
+            <div id="qr-codes" class="tab-content">
+                <div class="dashboard-header">
+                    <h1>QR Code Management</h1>
+                </div>
+
+                <div class="card">
+                    <h2>Select Medicine to Generate QR Codes</h2>
+                    <select id="medicineSelect" class="form-control" onchange="loadMedicineUnits()">
+                        <option value="">-- Select Medicine --</option>
+                    </select>
+                </div>
+
+                <div id="qrGenerationSection" class="card hidden">
+                    <h2>Generate New QR Codes</h2>
+                    <form id="qrGenerationForm" onsubmit="generateQRCodes(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Quantity *</label>
+                                <input type="number" id="quantity" min="1" max="1000" required placeholder="e.g. 100">
+                            </div>
+                            <div class="form-group">
+                                <label>Distribution City *</label>
+                                <input type="text" id="distributedCity" required placeholder="e.g. Mumbai">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Distribution State *</label>
+                                <input type="text" id="distributedState" required placeholder="e.g. Maharashtra">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Generate QR Codes</button>
+                    </form>
+                </div>
+
+                <div id="qrCodesGrid" class="qr-codes-grid">
+                    <p class="text-center text-secondary">Select a medicine to view QR codes</p>
+                </div>
+            </div>
+
+            <!-- Banned Medicines Tab -->
+            <div id="recalls" class="tab-content">
+                <div class="dashboard-header">
+                    <h1>Banned Medicines</h1>
+                </div>
+
+                <div id="recallsList" class="recalls-list">
+                    <div class="loading">Loading...</div>
+                </div>
+            </div>
+
+            <!-- Analytics Tab -->
+            <div id="analytics" class="tab-content">
+                <div class="dashboard-header">
+                    <h1>Analytics</h1>
+                </div>
+
+                <div class="card">
+                    <h2>Scan Statistics</h2>
+                    <p class="text-secondary">Analytics coming soon...</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Medicine Modal -->
+    <div id="addMedicineModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Medicine</h2>
+                <button class="modal-close" onclick="closeAddMedicineModal()">&times;</button>
+            </div>
+            <form id="addMedicineForm" onsubmit="addMedicine(event)">
+                <div class="form-group">
+                    <label>Medicine Name *</label>
+                    <input type="text" id="medicineName" required>
+                </div>
+                <div class="form-group">
+                    <label>Generic Name</label>
+                    <input type="text" id="genericName">
+                </div>
+                <div class="form-group">
+                    <label>Batch Number *</label>
+                    <input type="text" id="medicineBatchNumber" required placeholder="e.g. BN2024001">
+                </div>
+                <div class="form-group">
+                    <label>Category *</label>
+                    <select id="category" required>
+                        <option value="">-- Select Category --</option>
+                        <option value="ANTIBIOTIC">Antibiotic</option>
+                        <option value="PAINKILLER">Painkiller</option>
+                        <option value="ANTIVIRAL">Antiviral</option>
+                        <option value="VITAMIN">Vitamin</option>
+                        <option value="CARDIAC">Cardiac</option>
+                        <option value="DIABETES">Diabetes</option>
+                        <option value="OTHER">Other</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Manufacturing Date *</label>
+                        <input type="date" id="medicineManufDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Expiry Date *</label>
+                        <input type="date" id="medicineExpiryDate" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Composition</label>
+                    <input type="text" id="composition" placeholder="e.g. Paracetamol 500mg">
+                </div>
+                <div class="form-group">
+                    <label>Quantity Produced</label>
+                    <input type="number" id="quantityProduced" min="1" placeholder="e.g. 10000">
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="description" rows="2"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" onclick="closeAddMedicineModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Medicine</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.6.1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/websocket.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

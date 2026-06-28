@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chemist Dashboard - MedChain</title>
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/nav.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/verify.css">
+    <link rel="stylesheet" href="css/chemist.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="logo">🏥</span>
+                <span class="brand-name">MedChain</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="chemist.html" class="nav-link active">My Dashboard</a>
+                <a href="verify.html" class="nav-link">Verify</a>
+            </div>
+            <div class="nav-auth" id="navAuth"></div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+        </div>
+    </nav>
+
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>💊 Chemist</h2>
+                <p id="chemistName">Loading...</p>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#overview" class="sidebar-link active" data-tab="overview">
+                    <span>📊</span> Overview
+                </a>
+                <a href="#verify" class="sidebar-link" data-tab="verify">
+                    <span>🔍</span> Verify Medicine
+                </a>
+                <a href="#recalls" class="sidebar-link" data-tab="recalls">
+                    <span>🚫</span> Banned Medicines
+                </a>
+                <a href="#reports" class="sidebar-link" data-tab="reports">
+                    <span>🚨</span> My Reports
+                </a>
+                <a href="#interactions" class="sidebar-link" data-tab="interactions">
+                    <span>💊</span> Drug Interactions
+                </a>
+            </nav>
+        </aside>
+
+        <main class="admin-main">
+
+            <!-- Overview Tab -->
+            <div id="overview" class="tab-content active">
+                <div class="admin-header">
+                    <h1>👋 Welcome, <span id="welcomeName">Chemist</span></h1>
+                    <button class="btn btn-primary" onclick="switchTab('verify')">🔍 Verify Medicine</button>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card success">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-info">
+                            <div class="stat-number" id="totalVerified">0</div>
+                            <div class="stat-label">Medicines Verified Today</div>
+                        </div>
+                    </div>
+                    <div class="stat-card danger">
+                        <div class="stat-icon">🚫</div>
+                        <div class="stat-info">
+                            <div class="stat-number" id="activeBans">0</div>
+                            <div class="stat-label">Active Bans</div>
+                        </div>
+                    </div>
+                    <div class="stat-card warning">
+                        <div class="stat-icon">🚨</div>
+                        <div class="stat-info">
+                            <div class="stat-number" id="myReports">0</div>
+                            <div class="stat-label">Reports Submitted</div>
+                        </div>
+                    </div>
+                    <div class="stat-card primary">
+                        <div class="stat-icon">🔔</div>
+                        <div class="stat-info">
+                            <div class="stat-number" id="unreadNotifs">0</div>
+                            <div class="stat-label">Unread Alerts</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <h2>🚫 Recently Banned Medicines</h2>
+                        <p style="color:var(--text-secondary);font-size:0.875rem;margin-bottom:1rem;">
+                            Pull these from your shelf immediately
+                        </p>
+                        <div id="recentBans" class="activity-list">
+                            <div class="loading">Loading...</div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h2>📋 Recent Verifications</h2>
+                        <div id="recentScans" class="activity-list">
+                            <div class="loading">Loading...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Verify Tab -->
+            <div id="verify" class="tab-content">
+                <div class="admin-header">
+                    <h1>🔍 Verify Medicine</h1>
+                </div>
+
+                <div class="card" style="max-width:700px">
+                    <div class="chemist-verify-tabs">
+                        <button class="chemist-tab-btn active" onclick="switchVerifyMode('batch')">🔢 Batch Number</button>
+                        <button class="chemist-tab-btn" onclick="switchVerifyMode('qr')">📷 QR Code</button>
+                        <button class="chemist-tab-btn" onclick="switchVerifyMode('name')">🔍 Name Search</button>
+                    </div>
+
+                    <!-- Batch mode -->
+                    <div id="verifyBatch">
+                        <div class="form-group">
+                            <label>Batch Number (printed on box/strip)</label>
+                            <input type="text" id="cvBatchInput" placeholder="e.g. BN-PARA-2024-001"
+                                   class="qr-input" oninput="this.value=this.value.toUpperCase()"
+                                   onkeypress="if(event.key==='Enter') chemistVerifyBatch()">
+                        </div>
+                        <button class="btn btn-primary btn-large" onclick="chemistVerifyBatch()">🔍 Verify</button>
+                    </div>
+
+                    <!-- QR mode -->
+                    <div id="verifyQR" class="hidden">
+                        <div class="form-group">
+                            <label>QR Code Value</label>
+                            <input type="text" id="cvQRInput" placeholder="MEDCHAIN:xxxxx"
+                                   class="qr-input"
+                                   onkeypress="if(event.key==='Enter') chemistVerifyQR()">
+                        </div>
+                        <button class="btn btn-primary btn-large" onclick="chemistVerifyQR()">🔍 Verify</button>
+                    </div>
+
+                    <!-- Name mode -->
+                    <div id="verifyName" class="hidden">
+                        <div class="form-group">
+                            <label>Medicine Name</label>
+                            <input type="text" id="cvNameInput" placeholder="e.g. Paracetamol, Aziderm"
+                                   class="qr-input" oninput="chemistNameSearch(this.value)">
+                        </div>
+                        <div id="cvNameResults"></div>
+                    </div>
+                </div>
+
+                <!-- Result -->
+                <div id="chemistVerifyResult" class="hidden" style="max-width:700px;margin-top:1.5rem"></div>
+            </div>
+
+            <!-- Banned Medicines Tab -->
+            <div id="recalls" class="tab-content">
+                <div class="admin-header">
+                    <h1>🚫 Banned Medicines</h1>
+                    <p style="color:var(--text-secondary)">Pull these from your shelf immediately</p>
+                </div>
+                <div id="bannedList" class="reports-grid">
+                    <div class="loading">Loading...</div>
+                </div>
+            </div>
+
+            <!-- My Reports Tab -->
+            <div id="reports" class="tab-content">
+                <div class="admin-header">
+                    <h1>🚨 My Reports</h1>
+                    <button class="btn btn-danger" onclick="window.location.href='report.html'">+ Report Fake Medicine</button>
+                </div>
+                <div id="myReportsList" class="reports-grid">
+                    <div class="loading">Loading...</div>
+                </div>
+            </div>
+
+            <!-- Drug Interactions Tab -->
+            <div id="interactions" class="tab-content">
+                <div class="admin-header">
+                    <h1>💊 Drug Interaction Checker</h1>
+                </div>
+                <div class="card" style="max-width:700px">
+                    <div class="form-group">
+                        <label>Add Medicine</label>
+                        <div style="display:flex;gap:0.5rem">
+                            <input type="text" id="drugInput" placeholder="Enter medicine name..."
+                                   onkeypress="if(event.key==='Enter') addDrug()">
+                            <button class="btn btn-primary" onclick="addDrug()">+ Add</button>
+                        </div>
+                    </div>
+                    <div id="drugChips" style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1rem;"></div>
+                    <div style="display:flex;gap:1rem">
+                        <button class="btn btn-primary btn-large" id="checkDrugsBtn" onclick="checkDrugs()" disabled>
+                            Check Interactions
+                        </button>
+                        <button class="btn btn-outline" onclick="clearDrugs()">Clear</button>
+                    </div>
+                </div>
+                <div id="drugResults" class="hidden" style="max-width:700px;margin-top:1.5rem"></div>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.6.1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/websocket.js"></script>
+    <script src="js/chemist.js"></script>
+</body>
+</html>

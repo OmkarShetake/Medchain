@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Fake Medicine - MedChain</title>
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/nav.css">
+    <link rel="stylesheet" href="css/report.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="logo">🏥</span>
+                <span class="brand-name">MedChain</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="verify.html" class="nav-link">Verify</a>
+                <a href="report.html" class="nav-link active">Report</a>
+            </div>
+            <div class="nav-auth" id="navAuth"></div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+        </div>
+    </nav>
+
+    <section class="report-section">
+        <div class="container">
+            <h1 class="text-center">Report Fake Medicine</h1>
+            <p class="text-center text-secondary" style="margin-bottom:2rem;">
+                Help us fight fake medicines by reporting suspicious products
+            </p>
+
+            <div class="card report-form-card">
+                <form id="reportForm" onsubmit="submitReport(event)">
+                    <div class="form-group">
+                        <label>QR Code (if available)</label>
+                        <input type="text" id="qrCode" placeholder="MEDCHAIN:xxxxx-xxxx-xxxx">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Upload Photo *</label>
+                        <input type="file" id="photo" accept="image/*" required>
+                        <div id="photoPreview"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Description *</label>
+                        <textarea id="description" rows="4" required
+                            placeholder="Describe what makes you suspicious about this medicine..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="autoLocation" checked>
+                            Auto-detect my location
+                        </label>
+                    </div>
+
+                    <div id="manualLocation" class="hidden">
+                        <div class="form-group">
+                            <label>City</label>
+                            <input type="text" id="city">
+                        </div>
+                        <div class="form-group">
+                            <label>State</label>
+                            <input type="text" id="state">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-danger btn-large">Submit Report</button>
+                </form>
+
+                <div id="successMessage" class="hidden success-message">
+                    <div class="success-icon">✅</div>
+                    <h2>Report Submitted Successfully!</h2>
+                    <p>Tracking ID: <strong id="trackingId"></strong></p>
+                    <p>Our team will review your report within 24 hours.</p>
+                    <button class="btn btn-primary" onclick="window.location.href='index.html'">Back to Home</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/report.js"></script>
+</body>
+</html>

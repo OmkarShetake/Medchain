@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drug Interaction Checker - MedChain</title>
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/nav.css">
+    <link rel="stylesheet" href="css/interactions.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="logo">🏥</span>
+                <span class="brand-name">MedChain</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="verify.html" class="nav-link">Verify</a>
+                <a href="interactions.html" class="nav-link active">Drug Interactions</a>
+            </div>
+            <div class="nav-auth" id="navAuth"></div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+        </div>
+    </nav>
+
+    <section class="interactions-section">
+        <div class="container">
+            <h1 class="text-center">💊 Drug Interaction Checker</h1>
+            <p class="text-center text-secondary" style="margin-bottom:2rem;">
+                Check if your medicines are safe to take together
+            </p>
+
+            <div class="card interactions-card">
+                <div class="form-group">
+                    <label>Add Medicine</label>
+                    <div class="medicine-input-row">
+                        <input type="text" id="medicineInput" placeholder="Enter medicine name..."
+                            onkeypress="if(event.key==='Enter') addMedicine()">
+                        <button class="btn btn-primary" onclick="addMedicine()">+ Add</button>
+                    </div>
+                </div>
+
+                <div id="medicineList" class="medicine-chips"></div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-primary btn-large" onclick="checkInteractions()"
+                        id="checkBtn" disabled>
+                        Check Interactions
+                    </button>
+                    <button class="btn btn-outline" onclick="clearAll()">Clear All</button>
+                </div>
+            </div>
+
+            <div id="results" class="hidden"></div>
+
+            <div class="card note-card">
+                <p><strong>ℹ️ Note:</strong> This tool checks for known drug interactions.
+                Always consult your doctor or pharmacist before taking multiple medicines together.</p>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/interactions.js"></script>
+</body>
+</html>

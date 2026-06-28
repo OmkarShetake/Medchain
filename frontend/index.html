@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MedChain - AI-powered fake medicine detection platform for rural India">
+    <title>MedChain - Verify Medicine Authenticity</title>
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/nav.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="logo">🏥</span>
+                <span class="brand-name">MedChain</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link active">Home</a>
+                <a href="verify.html" class="nav-link">Verify</a>
+                <a href="symptom.html" class="nav-link">Symptom Checker</a>
+                <a href="interactions.html" class="nav-link">Drug Interactions</a>
+                <a href="#recalls" class="nav-link">Banned Medicines</a>
+            </div>
+            <div class="nav-auth" id="navAuth">
+                <a href="auth.html" class="btn btn-outline">Login</a>
+                <a href="auth.html?register=true" class="btn btn-primary">Sign Up</a>
+            </div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <!-- Live ticker -->
+                <div class="hero-ticker">
+                    <span class="dot" style="width:8px;height:8px;background:#4ade80;border-radius:50%;animation:pulse-dot 1.5s infinite"></span>
+                    ✅ <span class="ticker-number" id="tickerCount">0</span> medicines verified today
+                </div>
+
+                <h1 class="hero-title">Is Your Medicine Real?</h1>
+                <p class="hero-subtitle">Scan, search or enter a batch number to instantly verify medicine authenticity with AI</p>
+
+                <!-- Search box with pulse button -->
+                <div class="hero-search">
+                    <input type="text" id="qrInput" placeholder="Enter batch number or QR code..." class="search-input"
+                           onkeypress="if(event.key==='Enter') verifyFromHome()">
+                    <button class="btn-verify-hero" onclick="verifyFromHome()">
+                        🔍 Verify Now
+                    </button>
+                </div>
+
+                <!-- Feature badges -->
+                <div class="hero-features">
+                    <div class="feature-badge">✅ Instant Verification</div>
+                    <div class="feature-badge">🤖 AI-Powered</div>
+                    <div class="feature-badge">🆓 100% Free</div>
+                    <div class="feature-badge">🇮🇳 Made for India</div>
+                </div>
+
+                <!-- Floating medicine illustration -->
+                <div class="hero-illustration">
+                    <div class="pill-card">
+                        <span class="pill-icon">💊</span>
+                        <span>Tablets</span>
+                    </div>
+                    <div class="pill-card">
+                        <span class="pill-icon">🧴</span>
+                        <span>Creams</span>
+                    </div>
+                    <div class="pill-card">
+                        <span class="pill-icon">💉</span>
+                        <span>Injections</span>
+                    </div>
+                    <div class="pill-card">
+                        <span class="pill-icon">🫙</span>
+                        <span>Syrups</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="how-it-works">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+            <div class="steps">
+                <div class="step-card">
+                    <div class="step-num">1</div>
+                    <span class="step-icon-img">🏭</span>
+                    <h3>Manufacturer Registers</h3>
+                    <p>Pharmaceutical companies register medicines and generate unique QR codes for every batch</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">2</div>
+                    <span class="step-icon-img">🔍</span>
+                    <h3>You Verify</h3>
+                    <p>Scan QR code, enter batch number, or search by name — takes under 3 seconds</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">3</div>
+                    <span class="step-icon-img">🛡️</span>
+                    <h3>Instant Verdict</h3>
+                    <p>Get immediate result: <strong style="color:#16a34a">Genuine</strong>, <strong style="color:#d97706">Expired</strong>, <strong style="color:#dc2626">Banned</strong>, or <strong style="color:#dc2626">Fake</strong></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats">
+        <div class="container">
+            <h2 class="section-title">Live Statistics</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="statMedicines">0</div>
+                    <div class="stat-label">Medicines Verified</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="statFakes">0</div>
+                    <div class="stat-label">Fakes Detected</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="statStates">0</div>
+                    <div class="stat-label">States Covered</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="statManufacturers">0</div>
+                    <div class="stat-label">Trusted Manufacturers</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="recalls" id="recalls">
+        <div class="container">
+            <h2 class="section-title">⚠️ Recently Banned Medicines</h2>
+            <div id="recallsList" class="recalls-list">
+                <div class="loading">Loading...</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="search-section">
+        <div class="container">
+            <h2 class="section-title">Search Medicines</h2>
+            <div class="search-box">
+                <input type="text" id="medicineSearch" placeholder="Search by name, generic name, or category..." class="search-input">
+                <button class="btn btn-primary" onclick="searchMedicines()">Search</button>
+            </div>
+            <div id="searchResults" class="search-results"></div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <h2>Get Started with MedChain</h2>
+            <p>Verify medicine authenticity instantly - no installation required</p>
+            <a href="verify.html" class="btn btn-primary btn-large">🔍 Start Verification</a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>MedChain</h3>
+                    <p>Fighting fake medicines in rural India with AI technology</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <a href="verify.html">Verify Medicine</a>
+                    <a href="report.html">Report Fake</a>
+                    <a href="symptom.html">Symptom Checker</a>
+                </div>
+                <div class="footer-section">
+                    <h4>For Manufacturers</h4>
+                    <a href="dashboard.html">Dashboard</a>
+                    <a href="auth.html">Register</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>Email: support@medchain.com</p>
+                    <p>Helpline: 1800-2578-3698</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 MedChain. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.6.1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/websocket.js"></script>
+    <script src="js/index.js"></script>
+</body>
+</html>

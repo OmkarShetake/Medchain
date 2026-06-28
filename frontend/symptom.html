@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Symptom Checker - MedChain</title>
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/nav.css">
+    <link rel="stylesheet" href="css/symptom.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="logo">🏥</span>
+                <span class="brand-name">MedChain</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="verify.html" class="nav-link">Verify</a>
+                <a href="symptom.html" class="nav-link active">Symptom Checker</a>
+            </div>
+            <div class="nav-auth" id="navAuth"></div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+        </div>
+    </nav>
+
+    <section class="symptom-section">
+        <div class="container">
+            <h1 class="text-center">🤖 AI Symptom Checker</h1>
+            <p class="text-center text-secondary" style="margin-bottom:2rem;">
+                Describe your symptoms and get AI-powered medicine recommendations
+            </p>
+
+            <div class="card symptom-card">
+                <div class="language-buttons">
+                    <button class="btn btn-outline" onclick="setLanguage('English')">English</button>
+                    <button class="btn btn-outline" onclick="setLanguage('Hindi')">हिंदी</button>
+                </div>
+
+                <div class="form-group">
+                    <label>Describe your symptoms</label>
+                    <textarea id="symptoms" rows="4"
+                        placeholder="e.g., I have fever, headache, and body pain for 2 days..."></textarea>
+                </div>
+
+                <div class="quick-examples">
+                    <span>Quick examples:</span>
+                    <button class="btn btn-outline" onclick="setSymptom('fever and headache')">Fever &amp; Headache</button>
+                    <button class="btn btn-outline" onclick="setSymptom('cold and cough')">Cold &amp; Cough</button>
+                    <button class="btn btn-outline" onclick="setSymptom('stomach pain')">Stomach Pain</button>
+                    <button class="btn btn-outline" onclick="setSymptom('body pain')">Body Pain</button>
+                </div>
+
+                <button class="btn btn-primary btn-large" onclick="checkSymptoms()">
+                    🔍 Check Symptoms
+                </button>
+            </div>
+
+            <div id="results" class="hidden"></div>
+
+            <div class="card disclaimer-card">
+                <p><strong>⚠️ Disclaimer:</strong> This AI tool provides general information only.
+                Always consult a qualified doctor for proper diagnosis and treatment.
+                In case of emergency, call 108 or visit nearest hospital immediately.</p>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/symptom.js"></script>
+</body>
+</html>
